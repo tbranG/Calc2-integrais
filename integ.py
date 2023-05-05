@@ -17,18 +17,31 @@ def undef_integral(exp: sympy.Expr) -> sympy.Expr | None:
     return result
 
 
-# def def_integral(exp: sympy.Expr, floor: int, ceil: int) -> tuple | None:
-#     """
-#         Sumário:
-#             Calcula a integral definida da expressão se for possível
+def def_integral(exp: sympy.Expr, floor: int | str, ceil: int | str) -> tuple | None:
+    """
+        Sumário:
+            Calcula a integral definida da expressão se for possível
         
-#         Retorna:
-#             A integral indefinda e o resultado do teorema fundamental
-#     """
-#     result = None
-#     try:
-#         undef = sympy.integrate(exp)
+        Retorna:
+            A integral indefinda e o resultado do teorema fundamental
+    """
+    result = None
+    try:
+        # tratando a entrada caso o usuário digite alguma constante. ex: pi e euler
+        if type(floor) is str:
+            floor = sympy.parse_expr(floor)
 
-#         return (undef, 0.0)
-#     except ValueError as err:
-#         print(err)
+        if type(ceil) is str:
+            ceil = sympy.parse_expr(ceil)
+        # ----------------------------------------------------------------------
+    
+        undef = sympy.integrate(exp)
+        symbols = undef.free_symbols    # recupera as variáveis
+        
+        val = sympy.integrate(exp, (symbols.pop(), floor, ceil))
+
+        result = (undef, val)
+    except ValueError as err:
+        print(err)      
+    
+    return result

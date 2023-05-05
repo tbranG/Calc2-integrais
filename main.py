@@ -1,6 +1,3 @@
-import sympy
-import math
-
 # importação dos métodos
 import os
 from menu import menu, info_display
@@ -12,7 +9,7 @@ while(True):
         sel = int(input(": "))
         inval_input = False
 
-        if sel < 0 or sel > len(menu):
+        if sel < 1 or sel > len(menu):
             print("\nERRO: entrada invalida")
             inval_input = True
 
