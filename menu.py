@@ -27,11 +27,12 @@ def call_undef_integral() -> None:
         Sumário:
             Camada de Front-End: Exibe o resultado de uma integração indefinida
     """
-    expr_str = input("digite a expressao para integrar: ")
+    expr_str = input("digite a expressao para integrar\n: ")
     expr: sympy.Expr = sympy.parse_expr(expr_str)
 
     print("\t----Resultado----\n")
-    sympy.printing.pprint(undef_integral(expr))
+    expr2 = undef_integral(expr) + sympy.symbols("c")
+    sympy.printing.pprint(expr2)
     print("\t-----------------")
 
 
