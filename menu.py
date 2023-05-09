@@ -1,7 +1,7 @@
 """
     lista com os métodos disponíveis para execução
 """
-import sympy
+import sympy, os
 
 # importa os métodos de integração
 from integ import *
@@ -19,7 +19,8 @@ def info_display() -> None: print("""
     ----Calculadora de integrais----
 1- integral indefinida
 2- integral definida
-3- sair
+3- integral por partes
+4- sair
 """)
 
 
@@ -63,6 +64,34 @@ def call_def_integral() -> None:
     print("\t-----------------")
 
 
+def call_by_parts_integral() -> None:
+    """
+        Sumário:
+            Camada de Front-End: Exibe o resultado da integral e os elementos du e v
+    """
+    expr_str = input("digite a expressao para integrar\n: ")
+    expr: sympy.Expr = sympy.parse_expr(expr_str)
+
+    u_expr_str = input("digite qual eh o termo u:\n")
+    u_expr: sympy.Expr = sympy.parse_expr(u_expr_str)
+
+    dv_expr_str = input("digite qual eh o termo dv:\n")
+    dv_expr: sympy.Expr = sympy.parse_expr(dv_expr_str)
+
+    res_expr, du, v = by_parts_integral(expr, u_expr, dv_expr)
+
+    os.system("cls")
+    print("--termos--")
+    print("du:")
+    sympy.printing.pprint(du)
+    print("\nv:")
+    sympy.printing.pprint(v)
+    print("--reescrita--")
+    part_expr: sympy.Expr = u_expr*v - sympy.Integral(v*du)
+    sympy.printing.pprint(part_expr) 
+    print("--resultado:")
+    sympy.printing.pprint(res_expr + sympy.Symbol("c"))
+
 # encerra a aplicação retornando um código de status 0
 def exit_app() -> int: return 0
 
@@ -70,5 +99,6 @@ def exit_app() -> int: return 0
 menu = [
     call_undef_integral,
     call_def_integral,
+    call_by_parts_integral,
     exit_app
 ]

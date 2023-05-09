@@ -45,3 +45,31 @@ def def_integral(exp: sympy.Expr, floor: int | str, ceil: int | str) -> tuple | 
         print(err)      
     
     return result
+
+
+def by_parts_integral(exp: sympy.Expr, u: sympy.Expr, dv: sympy.Expr) -> tuple | None:
+    """
+        Sumário:
+            Cálcula a integral indefinda por meio da integração por partes
+        
+        Retorna:
+            A integral indefinida, o termo du e o termo v
+    """
+    result = None
+
+    try:
+        v = sympy.integrate(dv)
+        du = sympy.diff(u)
+
+        #parte1 da expressão: u*v
+        uv = u*v
+
+        #parte2 da expressão: integral v*du
+        intg_vdu = v*du
+        
+        final_intg = uv - sympy.integrate(intg_vdu)
+        result = (final_intg, du, v)
+    except ValueError as err:
+        print(err)
+
+    return result
