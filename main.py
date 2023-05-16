@@ -14,7 +14,7 @@ while(True):
             inval_input = True
 
         if not inval_input:
-            if menu[sel-1]() is not None:
+            if menu.get(sel)[0]() is not None:
                 break
 
         input("pressione qualquer tecla...")

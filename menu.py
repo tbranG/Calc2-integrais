@@ -10,19 +10,6 @@ from integ import *
 # o funcionamento vai depender do ambiente de execução
 sympy.init_printing()
 
-# definindo símbolo padrão como x
-# x = sympy.Symbol("x")
-
-
-# header do menu
-def info_display() -> None: print("""
-    ----Calculadora de integrais----
-1- integral indefinida
-2- integral definida
-3- integral por partes
-4- sair
-""")
-
 
 def call_undef_integral() -> None:
     """
@@ -92,13 +79,49 @@ def call_by_parts_integral() -> None:
     print("--resultado:")
     sympy.printing.pprint(res_expr + sympy.Symbol("c"))
 
+
+def call_subs_integral() -> None:
+    """
+        Sumário:
+            Camada de Front-End: Exibe o resultado da integral final e com o elemento u
+    """
+    expr_str = input("digite a expressao para integrar\n: ")
+    expr: sympy.Expr = sympy.parse_expr(expr_str)
+
+    u_expr_str = input("digite qual eh o termo u:\n")
+    u_expr: sympy.Expr = sympy.parse_expr(u_expr_str)
+
+    subs_expr, integ_u, integ_fin = subs_integral(expr, u_expr)
+
+    print("--expressao substituida--")
+    sympy.printing.pprint(sympy.Integral(subs_expr))
+
+    print("\n--integral com u--")
+    sympy.printing.pprint(integ_u + sympy.symbols("c"))
+
+    print("\n--integral final--")
+    sympy.printing.pprint(integ_fin + sympy.symbols("c"))
+
+
 # encerra a aplicação retornando um código de status 0
 def exit_app() -> int: return 0
 
+
 # mapeia cada um dos métodos de integração 
-menu = [
-    call_undef_integral,
-    call_def_integral,
-    call_by_parts_integral,
-    exit_app
-]
+menu = {
+    1 : (call_undef_integral, "integral indefinida"),
+    2 : (call_def_integral, "integral definida"),
+    3 : (call_by_parts_integral, "integral por partes"),
+    4 : (call_subs_integral, "integral por substituicao"),
+    5 : (exit_app, "sair")
+}
+
+# exibe o menu para o usuário
+def info_display() -> None: 
+    menuStr = "----Calculadora de integrais----\n\n"
+    keysList = list(menu.keys())
+
+    for key in keysList:
+        menuStr += str(key) + "-" + " " + menu.get(key)[1] + "\n" 
+
+    print(menuStr)

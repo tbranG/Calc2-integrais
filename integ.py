@@ -50,7 +50,7 @@ def def_integral(exp: sympy.Expr, floor: int | str, ceil: int | str) -> tuple | 
 def by_parts_integral(exp: sympy.Expr, u: sympy.Expr, dv: sympy.Expr) -> tuple | None:
     """
         Sumário:
-            Cálcula a integral indefinda por meio da integração por partes
+            Calcula a integral indefinda por meio da integração por partes
         
         Retorna:
             A integral indefinida, o termo du e o termo v
@@ -72,4 +72,28 @@ def by_parts_integral(exp: sympy.Expr, u: sympy.Expr, dv: sympy.Expr) -> tuple |
     except ValueError as err:
         print(err)
 
+    return result
+
+
+def subs_integral(exp: sympy.Expr, u: sympy.Expr) -> tuple | None:
+    """
+        Sumário:
+            Calcula a integral indefinida por meio da integração por substituição
+
+        Retorna:
+            A integral indefinida com o termo u, o resultado com o termo u e o resultado final 
+    """
+    result = None
+
+    try:
+        du: sympy.Expr = 1/sympy.diff(u)
+        subs_expr = exp.subs(u, sympy.symbols('u'))*du
+
+        integ_u = sympy.integrate(subs_expr)
+        integ_fin = integ_u.subs(sympy.symbols('u'), u)
+
+        result = (subs_expr, integ_u, integ_fin)
+    except ValueError as err:
+        print(err)
+    
     return result
