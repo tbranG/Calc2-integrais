@@ -40,3 +40,9 @@ Como executar:
 
 Executar o código 'main.py' e selecionar a opção 3 (integral por partes)
 
+<h3>Etapa 4</h3>
+Como executar:
+
+Executar o código 'main.py' e selecionar a opção 4 (integral por substituição)
+
+> Obs: utilizar parenteses `()` para definir prioridade das operações exemplo `(cos(x)**2)*(sin(x))`
