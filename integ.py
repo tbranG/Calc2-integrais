@@ -58,6 +58,11 @@ def by_parts_integral(exp: sympy.Expr, u: sympy.Expr, dv: sympy.Expr) -> tuple |
     result = None
 
     try:
+        # checa se u e dv existem na expressão
+        # caso não existam, a definição das partes está incorreta
+        if (str(u) not in str(exp)) or (str(dv) not in str(exp)):
+            raise ValueError("ERRO: Definição inválida de u e dv")
+
         v = sympy.integrate(dv)
         du = sympy.diff(u)
 
@@ -86,6 +91,11 @@ def subs_integral(exp: sympy.Expr, u: sympy.Expr) -> tuple | None:
     result = None
 
     try:
+        # checa se o termo u existe na expressão
+        # caso não exista, a definição do termo de substituição está incorreta
+        if(str(u) not in str(exp)):
+            raise ValueError("ERRO: Termo u inválido")
+
         du: sympy.Expr = 1/sympy.diff(u)
         subs_expr = exp.subs(u, sympy.symbols('u'))*du
 

@@ -20,7 +20,7 @@ def call_undef_integral() -> None:
     expr: sympy.Expr = sympy.parse_expr(expr_str)
 
     print("\t----Resultado----\n")
-    expr2 = undef_integral(expr) + sympy.symbols("c")
+    expr2 = undef_integral(expr) + sympy.symbols("c", constant=True)
     sympy.printing.pprint(expr2)
     print("\t-----------------")
 
@@ -65,7 +65,12 @@ def call_by_parts_integral() -> None:
     dv_expr_str = input("digite qual eh o termo dv:\n")
     dv_expr: sympy.Expr = sympy.parse_expr(dv_expr_str)
 
-    res_expr, du, v = by_parts_integral(expr, u_expr, dv_expr)
+    # checa se ocorreu um erro na integração
+    # nesse caso não há resultado para exibir
+    check = by_parts_integral(expr, u_expr, dv_expr)
+    if(check is not None):
+        res_expr, du, v = check
+    else: return
 
     os.system("cls")
     print("--termos--")
@@ -73,7 +78,7 @@ def call_by_parts_integral() -> None:
     sympy.printing.pprint(du)
     print("\nv:")
     sympy.printing.pprint(v)
-    print("--reescrita--")
+    print("\n--reescrita--")
     part_expr: sympy.Expr = u_expr*v - sympy.Integral(v*du)
     sympy.printing.pprint(part_expr) 
     print("--resultado:")
@@ -91,7 +96,12 @@ def call_subs_integral() -> None:
     u_expr_str = input("digite qual eh o termo u:\n")
     u_expr: sympy.Expr = sympy.parse_expr(u_expr_str)
 
-    subs_expr, integ_u, integ_fin = subs_integral(expr, u_expr)
+    # checa se ocorreu um erro na integração
+    # nesse caso não há resultado para exibir
+    check = subs_integral(expr, u_expr)
+    if(check is not None):
+        subs_expr, integ_u, integ_fin = check
+    else: return
 
     print("--expressao substituida--")
     sympy.printing.pprint(sympy.Integral(subs_expr))
